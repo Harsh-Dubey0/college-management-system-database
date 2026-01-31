@@ -1,84 +1,83 @@
-# College Management System Database (MySQL)
+# College Management System (MySQL)
 
 ## 📌 Project Overview
-This project is a **College Management System database** designed using **MySQL**.  
-It focuses on **clear and practical relational database design** with proper
-Primary Key and Foreign Key relationships.
+This project is a **College Management System database** designed using **MySQL**, focusing on **clear relational mapping at column level (Primary Key → Foreign Key)**.
 
-The project is created as part of learning **database concepts and SQL** and
-models common workflows used in real college systems.
+The system models **academic, operational, and infrastructure workflows** of a college while keeping the scope clean and realistic.
 
 ---
 
 ## 🎯 Project Scope
 
-### Included Modules
-- Student management
-- Course management
-- Student–course enrollment
-- Course-wise attendance tracking
-- Departments, teachers, and labs
-- Orders and products (college-related items)
+### ✅ Included Modules
+- Student & course management  
+- Student–course enrollment (Many-to-Many)  
+- Course-wise attendance tracking  
+- Orders & products (college items/books)  
+- Departments, teachers, and labs  
 
-### Excluded (Intentionally)
-- Payment / fees module
-- Advanced ERP features
+### ❌ Intentionally Excluded
+- Payment / fees module (handled separately in real systems)  
+- Over-engineered ERP features  
 
-> The scope is kept simple to maintain clarity and real-world relevance.
+> **Design choice:** The schema is kept minimal to avoid unused or redundant tables.
 
 ---
 
 ## 🧱 Database Tables
 
-### Academic
-- students
-- courses
-- enrollments
-- attendance
+### 🎓 Academic Module
+- students  
+- courses  
+- enrollments  
+- attendance  
 
-### Operational
-- orders
-- products
+### 🛒 Operational Module
+- orders  
+- products  
 
-### Infrastructure
-- departments
-- teachers
-- lab
-
----
-
-## 🔗 Key Relationships (PK → FK)
-- students → enrollments
-- courses → enrollments
-- enrollments → attendance
-- students → orders
-- products → orders
-- departments → teachers
-- departments → lab
+### 🏢 Infrastructure Module
+- departments  
+- teachers  
+- lab  
 
 ---
 
-## ⚙️ Concepts Used
-- Primary Key and Foreign Key constraints
-- One-to-Many and Many-to-Many relationships
-- Junction table for enrollments
-- UNIQUE constraint to avoid duplicate attendance
-- ENUM for controlled attendance status values
+## 🔗 Column-Level Relationships (PK → FK)
+
+| Parent Table | PK Column | Child Table | FK Column |
+|-------------|----------|-------------|-----------|
+| students | student_id | enrollments | student_id |
+| courses | course_id | enrollments | course_id |
+| enrollments | enrollment_id | attendance | enrollment_id |
+| students | student_id | orders | student_id |
+| products | product_id | orders | product_id |
+| departments | department_id | teachers | department_id |
+| departments | department_id | lab | department_id |
 
 ---
 
-## 🧪 Sample SQL Query
+## 📐 ER Diagram
+The ER diagram clearly shows **column-level foreign key mappings**, not just conceptual relationships.
+
+📂 Location:  
+`diagrams/College_Management_System_ER_Diagram_Column_Level.png`
+
+---
+
+## ⚙️ Key Database Concepts Used
+- Primary Key & Foreign Key constraints  
+- Many-to-Many relationship using junction table (`enrollments`)  
+- UNIQUE constraint to prevent duplicate attendance entries  
+- ENUM for controlled attendance status values  
+- Cascading deletes for dependent tables  
+
+---
+
+## 🧪 Sample Query
 ```sql
+-- Fetch students with their enrolled courses
 SELECT s.name, c.course_name
 FROM students s
 JOIN enrollments e ON s.student_id = e.student_id
 JOIN courses c ON e.course_id = c.course_id;
-
-
-
----
-
-## 📂 Tech Stack
-- MySQL
-- SQL
-
